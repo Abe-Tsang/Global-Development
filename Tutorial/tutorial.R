@@ -1,0 +1,32 @@
+#########################################
+######Quantitative Data Analysis######
+#########################################
+
+####Step 1 : Loading necessary packages####
+install.packages("foreign")
+install.packages("ggplot2")
+library(foreign)
+library(ggplot2)
+####Step 2: Setting the directory to the folder where our dataset is located####
+setwd("C:/Users/Abe/Desktop/Thanos/Global Development/Tutorial")
+
+
+####Step 3: Loading data into R ####
+tutorial_data <- read.dta("data.dta")
+
+
+####Step 4: Scatter Plot ####
+ggplot(tutorial_data, aes(x=al_ethnic, y=gle_cgdpc)) + 
+  geom_point(size=2, shape=23) + 
+  geom_smooth(method=lm)
+
+hist(tutorial_data$gle_cgdpc)
+tutorial_data$gdppc <- log(tutorial_data$gle_cgdpc)
+hist(tutorial_data$gdppc)
+
+####Step 5: Linear Regression ####
+model1 <- lm(gdppc ~ al_ethnic, data = tutorial_data)
+summary(model1)
+
+model2 <- lm(gdppc ~ al_ethnic + fh_ipolity2 + ti_cpi + DummyConflict, data = tutorial_data)
+summary(model2)
